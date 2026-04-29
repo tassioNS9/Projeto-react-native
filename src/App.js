@@ -5,39 +5,44 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View, 
-  Text } from 'react-native';
-import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useColorScheme, View, Text, Button } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { enableScreens } from 'react-native-screens';
+enableScreens();
+const Stack = createNativeStackNavigator();
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Details" component={DetailsScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
+function HomeScreen({ navigation }) {
   return (
-    <>
-      <View style={styles.container}>
-        <NewAppScreen templateFileName="App.tsx" safeAreaInsets={safeAreaInsets} />
-      </View>
-      <Text>Tesfdfdfdfdfdt</Text>
-    </>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
+      <Button title="Ir para detalhes" onPress={() => navigation.navigate('Details')} />
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+function DetailsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+      <Button title="Voltar" onPress={() => navigation.goBack()} />
+    </View>
+  );
+}
 
 export default App;
