@@ -1,18 +1,15 @@
 import { useAtom } from 'jotai';
 import atoms from '../atoms';
 import { useRef } from 'react';
-
 const useTodoList = () => {
   const [items, setItems] = useAtom(atoms.items);
   const [completedItems, setCompletedItems] = useAtom(atoms.completedItems);
-  const flatListRef = useRef(null);
-
-  const addItem = () => {
+  const addItem = (newTask) => {
     setItems((items) => {
       const newItem = {
         id: String(items.length + 1),
-        name: 'Item' + (items.length + 1),
-        description: 'Descrição do Item' + (items.length + 1),
+        name: newTask.name,
+        description: newTask.description,
         done: false,
       };
       const oldState = [...items];
@@ -23,9 +20,7 @@ const useTodoList = () => {
       // mostrando o item recém-adicionado.
       // O método scrollToEnd é usado para rolar a lista até o final,
       // e a opção animated: true garante que a rolagem seja suave.
-      flatListRef.current.scrollToEnd({ animated: true });
-      console.log('adicionoou!!!');
-
+      //flatListRef.current.scrollToEnd({ animated: true });
       return newState;
     });
   };
@@ -63,7 +58,6 @@ const useTodoList = () => {
     onDeleteTask,
     onCompleteTask,
     editItem,
-    flatListRef,
   };
 };
 
