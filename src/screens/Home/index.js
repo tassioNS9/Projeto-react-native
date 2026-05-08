@@ -15,21 +15,13 @@ import useTodoList from '../../hooks/useTodoList';
 // Ao usar o SafeAreaViewBase, você pode garantir que seu aplicativo
  tenha uma aparência consistente e seja fácil de usar em uma variedade de dispositivos.*/
 
-function HomeScreen() {
+function HomeScreen({ navigation }) {
   const initialItems = [
     { id: '1', name: 'Item 1', done: false },
     { id: '2', name: 'Item 2', done: true },
     { id: '3', name: 'Item 3', done: false },
   ];
-  const {
-    items,
-    completedItems,
-    setCompletedItems,
-    flatListRef,
-    addItem,
-    onDeleteTask,
-    onCompleteTask,
-  } = useTodoList();
+  const { items, completedItems, setCompletedItems, onDeleteTask, onCompleteTask } = useTodoList();
   const [showCompletedItems, setShowCompletedItems] = useState(false);
 
   useEffect(() => {
@@ -52,9 +44,8 @@ function HomeScreen() {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <Text style={styles.title}>Home Screen</Text>
-        <Button title="Adicionar Item" onPress={addItem} />
+        <Button title="Adicionar Item" onPress={() => navigation.navigate('Add')} />
         <FlatList
-          ref={flatListRef}
           // o showsVerticalScrollIndicator é uma propriedade do FlatList
           // que controla a exibição do indicador de rolagem vertical.
           // Quando definido como false, o indicador de rolagem não será exibido, mesmo que o conteúdo seja rolável. Isso pode ser útil para criar uma aparência mais limpa ou personalizada para a lista, especialmente se você estiver usando um design que não requer um indicador de rolagem visível.
