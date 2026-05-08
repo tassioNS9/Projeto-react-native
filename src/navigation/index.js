@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { enableScreens } from 'react-native-screens';
 import HomeScreen from '../screens/Home';
 import Edit from '../screens/Edit';
+import Add from '../screens/Add';
 enableScreens();
 
 const Stack = createNativeStackNavigator();
@@ -14,6 +15,7 @@ function Navigation() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Inicio" component={HomeScreen} />
+          <Stack.Screen name="Add" component={Add} />
           <Stack.Screen name="Edit" component={Edit} />
         </Stack.Navigator>
       </NavigationContainer>
