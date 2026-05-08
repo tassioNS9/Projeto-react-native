@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAtomValue } from 'jotai';
 import atoms from '../../atoms';
 import useTodoList from '../../hooks/useTodoList';
-
+import styles from './styles';
+import { useState } from 'react';
 function Edit({ navigation, route }) {
   // Po padrao do React Navigation,
   // a tela de destino (neste caso, a tela de edição)
@@ -19,31 +20,31 @@ function Edit({ navigation, route }) {
   console.log(item.id);
   const itemToComplete = useAtomValue(atoms.items);
   const { editItem } = useTodoList();
-
+  const [name, setName] = useState(item.name);
+  const [description, setDescription] = useState(item.description);
   const handleEditItem = () => {
+    if (!name || !description) {
+      alert('Preencha os campos para adicionar uma tarefa');
+      return;
+    }
     editItem(item.id, {
-      name: 'Item Editado',
-      description: `${new Date().toISOString()} - ${item.description}`,
+      name: name,
+      description: description,
     });
     navigation.goBack();
     console.log('Editar item:', item);
   };
   return (
     <SafeAreaView>
-      <View
-        style={{
-          backgroundColor: '#eee',
-          height: 200,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.container}>
         <Text>Editar item</Text>
-        <Text style={{ fontWeight: 'bold', color: 'blue' }}>{item.name}</Text>
-        <Text>{item.description}</Text>
+        <TextInput style={styles.input} value={name} onChangeText={setName} />
+        <TextInput style={styles.input} value={description} onChangeText={setDescription} />
         <Text>{`Item para completar:${itemToComplete.length}`}</Text>
-        <Button title="Editar Item" onPress={handleEditItem} />
-        <Button title="Cancelar" onPress={() => navigation.goBack()} />
+        <View style={styles.buttonsContainer}>
+          <Button title="Editar Item" onPress={handleEditItem} />
+          <Button title="Cancelar" onPress={() => navigation.goBack()} />
+        </View>
       </View>
     </SafeAreaView>
   );
